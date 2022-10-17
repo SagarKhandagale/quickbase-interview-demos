@@ -2,15 +2,11 @@ import React, { useState } from 'react'
 
 const FieldBuilder = () => {
 
-    const [order, setOrder] = useState('alphabetical');
     const [label, setLabel] = useState('');
     const [type, setType] = useState('multi');
     const [reqVal, setReqVal] = useState(true);
     const [defVal, setDefVal] = useState('');
-
-    const handleOrderChange = (event) => {
-        setOrder(event.target.value);
-    }
+    const [order, setOrder] = useState('select');
 
     const handleLabelChange = (event) => {
         setLabel(event.target.value);
@@ -26,6 +22,18 @@ const FieldBuilder = () => {
 
     const handleDefValChange = (event) => {
         setDefVal(event.target.value);
+    }
+
+    const handleOrderChange = (event) => {
+        setOrder(event.target.value);
+        if (event.target.value === 'alphabetical') {
+            const choicesText = document.getElementById('choice-select');
+            sortChoices(choicesText);
+        }
+    }
+
+    const sortChoices = (choices) => {
+        choices.value = choices.value.split("\n").sort().join("\n");
     }
 
     return (
@@ -57,9 +65,9 @@ const FieldBuilder = () => {
                     <label>
                         Order:
                         <select value={order} onChange={handleOrderChange}>
+                            <option value='select'>select</option>
                             <option value='alphabetical'>Display choices in alphabetical</option>
-                            <option value='vegetable'>Vegetable</option>
-                            <option value='meat'>Meat</option>
+                            <option value='test'>test</option>
                         </select>
                     </label>
                 </div>
