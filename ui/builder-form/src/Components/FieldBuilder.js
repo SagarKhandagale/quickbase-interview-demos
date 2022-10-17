@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import axios from 'axios';
 
 const FieldBuilder = () => {
 
@@ -6,7 +7,29 @@ const FieldBuilder = () => {
     const [type, setType] = useState('multi');
     const [reqVal, setReqVal] = useState(true);
     const [defVal, setDefVal] = useState('');
+    const [choices, setChoices] = useState('');
     const [order, setOrder] = useState('select');
+
+    const postSubmit = (e) => {
+        e.preventDefault();
+        // var label = document.getElementById('label').value;
+        // var type = document.getElementById('type').value;
+        // var choices = document.getElementById('choices').value;
+        // var defaultVal = document.getElementById('default').value;
+        // var order = document.getElementById('order').value;
+    
+        axios.post('http://www.mocky.io/v2/566061f21200008e3aabd919', {
+            'label':label,
+            'type':type,
+            'choices':JSON.stringify(choices),
+            'default':defVal,
+            'order':order
+        }).then(result => {
+            console.log(result)
+        }).catch(err => {
+            console.log(err)
+        });
+    }
 
     const handleLabelChange = (event) => {
         setLabel(event.target.value);
@@ -24,6 +47,10 @@ const FieldBuilder = () => {
         setDefVal(event.target.value);
     }
 
+    const handleChoices = (event) => {
+        setChoices(event.target.value);
+    }
+
     const handleOrderChange = (event) => {
         setOrder(event.target.value);
         if (event.target.value === 'alphabetical') {
@@ -33,12 +60,12 @@ const FieldBuilder = () => {
     }
 
     const sortChoices = (choices) => {
-        choices.value = choices.value.split("\n").sort().join("\n");
+        choices.value = choices.value.split('\n').sort().join('\n');
     }
 
     return (
         <div>
-            <form action='mailto:khandagale.s@northeastern.edu' method='post'>
+            <form onSubmit={postSubmit}>
                 <div id='label'>
                     <label> Label </label>
                     <input type='text' value={label} onChange={handleLabelChange} required />
@@ -58,7 +85,7 @@ const FieldBuilder = () => {
 
                 <div id='choices'>
                     <label> Choices </label>
-                    <textarea style={{ resize: 'none', height: '100px', overflowY: 'scroll' }} id='choice-select' cols='30' rows='5'></textarea>
+                    <textarea style={{ resize: 'none', height: '100px', overflowY: 'scroll' }} id='choice-select' cols='30' rows='5' onChange={handleChoices}></textarea>
                 </div>
 
                 <div id='order'>
@@ -73,7 +100,7 @@ const FieldBuilder = () => {
                 </div>
 
                 <div>
-                    <input type='submit' value='Save Changes' />
+                    <button type='submit'>Save Changes</button>
                     <input type='reset' value='Cancel' />
                 </div>
             </form>
