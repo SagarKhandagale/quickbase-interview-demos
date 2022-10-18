@@ -7,9 +7,9 @@ const DefaultTextValue = (props) => {
     }
 
     return (
-        <div id='default'>
-            <label> Default Value </label>
-            <input type='text' value={props.defVal} onChange={handleDefValChange} required />
+        <div id='default' className='row'>
+            <div className="column-left"><label> Default Value </label></div>
+            <div className="column-right"><input className='textbox' type='text' value={props.defVal} onChange={handleDefValChange} required /></div>
         </div>
     )
 }
